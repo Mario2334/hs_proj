@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, render_to_response, HttpResponse
 import datetime as dt
 import matplotlib.pyplot as plt
@@ -5,9 +6,10 @@ from matplotlib import style
 import pandas as pd
 from django.template import Context, Template
 
-
 # import pandas_datareader.data as web
 # Create your views here.
+from analytics.models import WeatherData
+from hs_proj.settings import URL_WEATHER, API_KEY
 
 
 def rendergraph(request):
@@ -31,3 +33,16 @@ def sample1(request):
 
 def page(request):
     return render(request, "page.html")
+
+
+def getweatherdata(request):
+    city = request.GET["city"]
+    date= request.GET["date"]
+
+    weather_data = requests.get(URL_WEATHER.format(city=city, KEY=API_KEY, date=date)).json()
+    weather_data = weather_data["forecast"]["forecastday"][0]
+    WeatherData.objects.create(city=city,date=date ,
+                               avg_temp=weather_data["day"]["avgtemp_c"],hourdata={"hour":weather_data["hour"]})
+    return render(request , "table.html",context={"date" : date , "city" : city ,
+                                                  "avg_temp" : weather_data["day"]["avgtemp_c"],
+                                                  "hours" : weather_data["hour"]})

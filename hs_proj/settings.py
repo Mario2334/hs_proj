@@ -91,7 +91,7 @@ USE_MODELTRANSLATION = False
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -303,6 +303,8 @@ OPTIONAL_APPS = (
     PACKAGE_NAME_GRAPPELLI,
 )
 
+URL_WEATHER = 'https://api.apixu.com/v1/history.json?key={KEY}&q={city}&dt={date}' # string substitution using {}
+API_KEY = '837d8297891746f990b65202191106'
 
 ##################
 #  API SETTINGS  #

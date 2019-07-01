@@ -15,7 +15,7 @@ def main():
     now = datetime.datetime.now()                # use datetime lib to get time of now
     res = []
     for city in cityes:
-        i = 30
+        i = 3
         # go from 3 to 1, and get weather history for each day (last three days)
         while i > 0:
             # calculate 'i' days ago in regard today
